@@ -1,0 +1,94 @@
+#此文档关注代码规范化和简洁化问题，从各文档中汲取案例继续剖析
+ 
+#--------------------------------------------------------Example 1--------------------------------------------------------------------#
+功能实现描述：
+找出规定日期区间内最早出现的日期。如在20160401后，每个对象最新出现的日期
+ max_date_2016 = ('20160401' if fund_nav[fund_nav.end_date<'20160401'].empty else fund_nav[fund_nav.end_date<'20160401'].end_date.max())
+ 
+ 学习要点：
+ 1.dataframe中用.引用整列，和.loc[:,'XX']功能相似；
+ 2.fund_nav[fund_nav.end_date<'20160401'].end_date.max()  筛选符合条件的行->取列值->列值最大;
+ 同理，可以用fund_nav[fund_nav.end_date>=max_date_2016]进行列筛选，原理和fund_nav[(fund_nav.loc[:,'end_date']>=max_date_2016)]相同
+ 3.赋值语句可以和判断语句写成一句，形式为A=(X if else)
+ 
+ #--------------------------------------------------------Example 2-------------------------------------------------------------------#
+功能实现描述：
+计算日增长率，一般情况是(df.loc[i,'nav']-df.loc[i-1,'nav'])/df.loc[i-1,'nav']
+ 
+ 学习要点：
+ 1.DataFrame shift函数的使用：
+df.loc[:,'nav'] = (df.loc[:,'nav'] -df.loc[:,'nav'].shift(1))/df.loc[:,'nav'].shift(1)
+ 相当于把原有的df.loc[:,'nav']整列向下移动一位，两列可进行相减运算，避免用循环。
+ 
+ #--------------------------------------------------------Example 3-------------------------------------------------------------------#
+功能实现描述：
+函数返回多个结果
+函数定义：
+def load_fund(existday, yesterday, pro): 
+  xx
+  return df22, df_daily
+函数调用：
+df22, df_daily = load_fund(existday, yesterday, pro)
+ 学习要点：
+ 1.同时有多个返回值，调用的时候注意位置和数据类型的对应
+ 具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
+ #--------------------------------------------------------Example 4-------------------------------------------------------------------#
+功能实现描述：
+列控制： cols = X.columns
+函数定义：
+def load_fund(existday, yesterday, pro): 
+  xx
+  return df22, df_daily
+函数调用：
+df22, df_daily = load_fund(existday, yesterday, pro)
+ 学习要点：
+ 1.同时有多个返回值，调用的时候注意位置和数据类型的对应
+ 具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
+
+#--------------------------------------------------------Example 5----------------------------------------------------------------------#
+功能实现描述：
+ # 近3个月交易笔数比上近6、12、24、36个月平均交易笔数(Example from https://github.com/DuncanZhou/ZCX/blob/master/Processing.py)
+
+ for m in [6, 12, 24, 36]:
+
+     feat = 'mean_query_times_last_3divide_{}_month'.format(m)
+
+     for b in [b_a, b_a_test]:
+
+         b[feat] = b['mean_query_times_last_3_month'] / (0.001 + b['mean_query_times_last_{}_month'.format(m)])
+
+     feats.append(feat)
+
+ return feats
+
+#--------------------------------------------------------Example 6--------------------------------------------------------------------#
+功能实现描述：(Example from https://github.com/DuncanZhou/ZCX/blob/master/Processing.py)
+def ReadExtraTrainTestData(valid_number,use_B=False):
+
+    path = "./train_test/train_test/train_test_"
+
+    # read train A
+
+    train_behavior_A = pd.read_csv(path+valid_number+"/scene_A/train_behavior_A.csv")
+
+    train_consumer_A = pd.read_csv(path+valid_number+"/scene_A/train_consumer_A.csv")
+
+    train_ccx_A = pd.read_csv(path+valid_number+"/scene_A/train_ccx_A.csv")
+
+
+
+    # read test A
+
+    test_behavior_A = pd.read_csv(path+valid_number+"/scene_A/test_behavior_A.csv")
+
+    test_consumer_A = pd.read_csv(path+valid_number+"/scene_A/test_consumer_A.csv")
+
+    test_ccx_A = pd.read_csv(path+valid_number+"/scene_A/test_ccx_A.csv")
+
+
+
+    # read target A
+
+    train_target = pd.read_csv(path+valid_number+"/scene_A/train_target_A.csv")
+
+    test_target = pd.read_csv(path+valid_number+"/scene_A/test_target_A.csv")
