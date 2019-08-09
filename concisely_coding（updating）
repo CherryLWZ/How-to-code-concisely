@@ -92,3 +92,10 @@ def ReadExtraTrainTestData(valid_number,use_B=False):
     train_target = pd.read_csv(path+valid_number+"/scene_A/train_target_A.csv")
 
     test_target = pd.read_csv(path+valid_number+"/scene_A/test_target_A.csv")
+    
+#------------------------------------------------------------Example7------------------------------------------------------------------#
+    df.loc[:, 'per1'] = df.rank1.div(df.shape[0]).to_list()
+    df.loc[:, 'per2'] = df.rank2.div(df.shape[0]).to_list()
+    
+    df.loc[:, 'start_day'] = df.start_day.min()
+    df.loc[:, 'end_day'] = df.end_day.max()
