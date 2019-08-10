@@ -29,23 +29,16 @@ def load_fund(existday, yesterday, pro):
   return df22, df_daily
 函数调用：
 df22, df_daily = load_fund(existday, yesterday, pro)
- 学习要点：
+学习要点：
  1.同时有多个返回值，调用的时候注意位置和数据类型的对应
  具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
- #--------------------------------------------------------Example 4-------------------------------------------------------------------#
-功能实现描述：
-列控制： cols = X.columns
-函数定义：
-def load_fund(existday, yesterday, pro): 
-  xx
-  return df22, df_daily
-函数调用：
-df22, df_daily = load_fund(existday, yesterday, pro)
- 学习要点：
- 1.同时有多个返回值，调用的时候注意位置和数据类型的对应
- 具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
-
-#--------------------------------------------------------Example 5----------------------------------------------------------------------#
+类似：
+    df.loc[:, 'per1'] = df.rank1.div(df.shape[0]).to_list()
+    df.loc[:, 'per2'] = df.rank2.div(df.shape[0]).to_list()
+    
+    df.loc[:, 'start_day'] = df.start_day.min()
+    df.loc[:, 'end_day'] = df.end_day.max()
+#---------------------------------------------------------Example 4--------------------------------------------------------------------#
 功能实现描述：
  # 近3个月交易笔数比上近6、12、24、36个月平均交易笔数(Example from https://github.com/DuncanZhou/ZCX/blob/master/Processing.py)
 
@@ -60,42 +53,52 @@ df22, df_daily = load_fund(existday, yesterday, pro)
      feats.append(feat)
 
  return feats
-
-#--------------------------------------------------------Example 6--------------------------------------------------------------------#
+学习要点：
+通过{}.format(m)的方式控制列循环，类似于%s,%(变量名)
+#--------------------------------------------------------Example 5--------------------------------------------------------------------#
 功能实现描述：(Example from https://github.com/DuncanZhou/ZCX/blob/master/Processing.py)
+读入指定目录下的数据，其中目录地址有规律变化
 def ReadExtraTrainTestData(valid_number,use_B=False):
-
     path = "./train_test/train_test/train_test_"
-
     # read train A
-
     train_behavior_A = pd.read_csv(path+valid_number+"/scene_A/train_behavior_A.csv")
-
     train_consumer_A = pd.read_csv(path+valid_number+"/scene_A/train_consumer_A.csv")
-
     train_ccx_A = pd.read_csv(path+valid_number+"/scene_A/train_ccx_A.csv")
-
-
-
     # read test A
-
     test_behavior_A = pd.read_csv(path+valid_number+"/scene_A/test_behavior_A.csv")
-
     test_consumer_A = pd.read_csv(path+valid_number+"/scene_A/test_consumer_A.csv")
-
     test_ccx_A = pd.read_csv(path+valid_number+"/scene_A/test_ccx_A.csv")
-
-
-
     # read target A
-
     train_target = pd.read_csv(path+valid_number+"/scene_A/train_target_A.csv")
-
     test_target = pd.read_csv(path+valid_number+"/scene_A/test_target_A.csv")
+ 学习要点：
+ 可变部分提前定义好或者通过参数传入
     
-#------------------------------------------------------------Example7------------------------------------------------------------------#
-    df.loc[:, 'per1'] = df.rank1.div(df.shape[0]).to_list()
-    df.loc[:, 'per2'] = df.rank2.div(df.shape[0]).to_list()
-    
-    df.loc[:, 'start_day'] = df.start_day.min()
-    df.loc[:, 'end_day'] = df.end_day.max()
+#------------------------------------------------------------Example 8-----------------------------------------------------------------#
+功能实现描述：
+批量定义参数
+  param_category = {
+            '0001':lambda x: (0.7,0.7),
+            '0002':lambda x: (0.7,0.6)}
+    param_1,param_2 = param_category[category](0)
+
+学习要点：
+ 1.lambda x
+
+
+#------------------------------------------------------------Example 9-----------------------------------------------------------------#
+功能实现描述：
+删除重复列和实现最新
+函数定义：
+def DeleteComplicate(consuming):
+
+    compare_cols = [col for col in consuming.columns if col != 'V_11']
+
+    consuming = consuming[compare_cols].drop_duplicates(keep='last')
+
+    return consuming
+
+学习要点：
+ 1.用list[]循环的方式实现取列
+ 2.drop_duplicates及类似函数实现去重
+ 具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
