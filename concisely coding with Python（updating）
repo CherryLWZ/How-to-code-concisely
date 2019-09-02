@@ -31,6 +31,8 @@ def load_fund(existday, yesterday, pro):
 df22, df_daily = load_fund(existday, yesterday, pro)
 学习要点：
  1.同时有多个返回值，调用的时候注意位置和数据类型的对应
+ 并且可以用索引控制具体取哪个返回结果：
+ df22=load_fund(existday,yesterday,pro)[0]
  具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
 类似：
     df.loc[:, 'per1'] = df.rank1.div(df.shape[0]).to_list()
@@ -102,3 +104,12 @@ def DeleteComplicate(consuming):
  1.用list[]循环的方式实现取列
  2.drop_duplicates及类似函数实现去重
  具体还可参考文档 https://blog.csdn.net/weixin_34309543/article/details/86005241
+ #--------------------------------------------------------Example 10-------------------------------------------------------------------#
+ 
+ trade_list = data_info[data_info.values.isnull() == False].value_date.drop_duplicates().sort_values().loc[:]
+学习要点：
+ 1.一句话完成多重功能
+ 
+ #------------------------------------------------------Example 11---------------------------------------------------------------------#
+ for i in tqdm.tqdm(list_A):
+ 随着i循环进度条出现变化
