@@ -107,6 +107,7 @@ def DeleteComplicate(consuming):
  #--------------------------------------------------------Example 10-------------------------------------------------------------------#
  
  trade_list = data_info[data_info.values.isnull() == False].value_date.drop_duplicates().sort_values().loc[:]
+ df.drop(df[df.rdmpt_status==1].index, inplace=True) # 可以用drop控制参数内容，和reset_index(drop=True)类似
 学习要点：
  1.一句话完成多重功能
  
@@ -117,3 +118,22 @@ def DeleteComplicate(consuming):
 train.key_index = train.key_index.apply(lambda x: 1 if x<=0.92 else 0)
 学习要点：
 lambda 实现判断
+
+#-------------------------------------------------------Example 13---------------------------------------------------------------------#
+因数据类型的问题存储不进数据库
+ purchase_records['nav'] = [code_value.unit_nav.item()]
+ 学习要点：
+ code_value.unit_nav.item()是把DataFrame code_value中的字段init_nav 由numpy.float类型转成float类型
+ []表示的是dict对象中的键值，purchase_records是dict类型，purchase_records['nav'][0]为取键值
+ df['id'] = [x['id']] dict中的整列赋值
+ #------------------------------------------------------Example 14---------------------------------------------------------------------#
+  df = df_day.apply(lambda x: df_apply(user_id=x['user_id'], \
+   t_date=x['t_date'], t_time=x['t_time'], fund_code=x['fund_code'], t_per=x['t_per'], \
+   t_code = f_day[f_day.fund_code==x['fund_code']]), axis=1)
+   
+   学习要点：
+   apply labmbda里面调用函数，函数的参数可以直接在里面赋值
+ #------------------------------------------------------Example 14---------------------------------------------------------------------#  
+   df = pd.read_sql_query('xx', con=conn)
+     学习要点：
+     可以不用初始化sql语句再代入
